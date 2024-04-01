@@ -7,6 +7,13 @@ const mongoose= require("mongoose");
 
 const app= express();
 
+app.use(cors({
+    origin: '*', // use your actual domain name (or localhost), using * is not recommended
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
+    credentials: true
+}))
+
 app.use(bodyparser.json());
 
 mongoose.connect("mongodb+srv://vasudevgarg7:vasudevgarg7@cluster0.ucwxkxw.mongodb.net/").then(()=>{console.log("connected")}).catch(()=>{console.log("error")});
@@ -23,7 +30,15 @@ const user= new mongoose.Schema({
     token: String
 });
 
+const course= new mongoose.Schema({
+    title: String,
+    description: String,
+    price: Number,
+    imageLink: String
+});
+
 const Admin= new mongoose.model("Admin", admin);
+const Course= new mongoose.model("Course", course);
 
 
 const secret= "secret";
@@ -77,4 +92,26 @@ app.post("/admin/signup",async(req, res)=>{
     
 } );
 
-app.listen(5000, ()=>console.log("listening to 5000"));
+app.post("/admin/createcourse", async (req, res)=>{
+
+    const {title, description, price, imageLink}= req.body;
+
+    try{
+    const course= new Course({title, description, price, imageLink});
+    await course.save();
+    res.json({message: "course created", course: course});
+    }catch{
+        res.send({message: "error in creating course"});
+    }
+});
+
+app.get("/admin/courses", async (req, res)=>{
+    try{
+    const arr= await Course.find();
+    res.send({courses: arr});}
+    catch{
+        res.send("error");
+    }
+})
+
+app.listen(5002, ()=>console.log("listening to 5002"));
