@@ -6,7 +6,23 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export default function Card1({title, description, price, image}) {
+export default function Card1({title, description, price, image, id, setArr, setOpen}) {
+
+const remove=(id)=>{
+  console.log(id.id);
+    fetch(`http://localhost:5002/admin/course/${id.id}`,{
+      method:"delete",
+      headers:{
+        'Content-Type':'application/json',
+        'token':localStorage.getItem("token")   
+      }
+    }).then(e=>e.json()).then(e=>{setArr(e.arr);console.log(e);});
+};
+
+const handleEdit=()=>{
+  setOpen(true);
+}
+
   return (
     <Card sx={{ maxWidth: 345 }} style={{height:"100%", maxHeight:"100%", overflow:"auto"}}>
       <CardMedia
@@ -26,8 +42,8 @@ export default function Card1({title, description, price, image}) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Edit</Button>
-        <Button size="small">Remove</Button>
+        <Button size="small" onClick={handleEdit} >Edit</Button>
+        <Button size="small" onClick={()=>remove({id})}>Remove</Button>
       </CardActions>
     </Card>
   );
