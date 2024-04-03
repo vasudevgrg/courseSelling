@@ -7,8 +7,9 @@ import Modal from "./Modal";
 const LandingPage = () => {
   const [arr, setArr] = useState([]);
   const [open, setOpen]= useState(false);
+  let [id, setId]= useState("");
 
-  console.log(localStorage.getItem("token"));
+  // console.log(localStorage.getItem("token"));
 
   useEffect(() => {
     fetch("http://localhost:5002/admin/courses",{
@@ -24,10 +25,10 @@ const LandingPage = () => {
        
       });
   }, []);
-  console.log(arr);
+  // console.log(arr);
   return (
     <>
-  {open &&  <Modal setOpen={setOpen} />}
+  {open &&  <Modal setOpen={setOpen} id={id} setArr={setArr} />}
       <Navbar />
       <div
         style={{
@@ -40,7 +41,7 @@ const LandingPage = () => {
         <div style={{display:"flex", flexDirection:"row", margin:"10px", flexWrap:"wrap"}}>
           
           {arr.map((e) => (
-            <Card1 title={e.title} description={e.description} price={e.price} image={e.image} id={e._id} setArr={setArr} setOpen={setOpen} />
+            <Card1 title={e.title} description={e.description} price={e.price} image={e.image} id={e._id} setArr={setArr} setOpen={setOpen} setId={setId} />
           ))}
         </div>
        

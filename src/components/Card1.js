@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export default function Card1({title, description, price, image, id, setArr, setOpen}) {
+export default function Card1({title, description, price, image, id, setArr, setOpen, setId}) {
 
 const remove=(id)=>{
   console.log(id.id);
@@ -21,6 +21,7 @@ const remove=(id)=>{
 
 const handleEdit=()=>{
   setOpen(true);
+  setId(id);
 }
 
 

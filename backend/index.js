@@ -112,7 +112,9 @@ app.post("/admin/createcourse", async (req, res)=>{
     }
 });
 
-app.get("/admin/courses",authenticate,async (req, res)=>{
+app.get("/admin/courses"
+,authenticate
+,async (req, res)=>{
     try{
     const arr= await Course.find();
     res.send({courses: arr});}
@@ -121,19 +123,36 @@ app.get("/admin/courses",authenticate,async (req, res)=>{
     }
 });
 
-app.put("/admin/course/:id", async (req, res)=>{
+app.put("/admin/course/:id",authenticate, async (req, res)=>{
+    console.log("hello put request");
     try{
     const id= req.params.id;
+    console.log(id);
+    let {title, description, price, image}= req.body;
 
-    const {title, description, price, image}= req.body;
+    const val=Course.findOne({_id:id});
+
+if(title==""){
+    title=val.title;
+}else if(description===""){
+    description= val.description;
+}else if(price===""){
+    price= val.price;
+}else if(image==""){
+    image=val.image;
+}
+
+  
     await Course.findOneAndUpdate({_id:id},{title, description, price, image});
-    res.send({"message": "value updated"});
+    let arr= await Course.find();
+    console.log(arr);
+        res.send({"message":"item updated", "arr": arr});
     }catch{
-            res.send("error");
+            res.status(401).send("error");
     }
 });
 
-app.delete("/admin/course/:id", async (req, res)=>{
+app.delete("/admin/course/:id",authenticate, async (req, res)=>{
     try{
         const id= req.params.id;
 
