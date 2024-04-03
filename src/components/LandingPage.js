@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Card1 from "./Card1";
-import BasicModal from "./BasicModal";
+
+import Modal from "./Modal";
 
 const LandingPage = () => {
   const [arr, setArr] = useState([]);
@@ -26,7 +27,7 @@ const LandingPage = () => {
   console.log(arr);
   return (
     <>
-    {open && <BasicModal/>}
+  {open &&  <Modal setOpen={setOpen} />}
       <Navbar />
       <div
         style={{
@@ -44,7 +45,7 @@ const LandingPage = () => {
         </div>
        
       </div>
-    </>
+      </>
   );
 };
 
