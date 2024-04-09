@@ -98,27 +98,27 @@ app.post("/signup", async (req, res) => {
 
   jwt.sign({ username, password }, secret, async (err, token) => {
     try {
-        if(username==="admin"){
-      const admin = new Admin({
-        username: username,
-        password: password,
-        token: token,
-      });
-      await admin.save();
-      res.send("user created");
-    }else{
-        const user= new User({
-            username: username,
-            passwors: password,
-            token: token,
-            courses:[]
+      if (username === "admin") {
+        const admin = new Admin({
+          username: username,
+          password: password,
+          token: token,
+        });
+        await admin.save();
+        res.send("user created");
+      } else {
+        const user = new User({
+          username: username,
+          password: password,
+          token: token,
+          courses: [],
         });
 
         await user.save();
         res.send({
-            user: user
-        })
-    }
+          user: user,
+        });
+      }
     } catch {
       res.send("error");
     }
@@ -131,18 +131,17 @@ app.post("/login", async (req, res) => {
   console.log(username + " " + password);
   try {
     let val = await Admin.findOne({ username, password });
-  if(username==="admin"){
-    res.send({
+    if (username === "admin") {
+      res.send({
         token: val.token,
-        type: "admin"
-    })
-  }else{
-    res.send({
+        type: "admin",
+      });
+    } else {
+      res.send({
         token: val.token,
-        type: "user"
-    })
-  }
-
+        type: "user",
+      });
+    }
   } catch {}
 });
 
@@ -217,6 +216,24 @@ app.delete("/admin/course/:id", authenticate, async (req, res) => {
 
 //apis for users
 
+app.post("/user/addtocart", async (req, res) => {
+    
+    let user =  User.findOne({ token: req.headers.token });
+  try {
+    
+
+    console.log(JSON.parse(user));
+
+     User.updateOne(
+      { token: req.headers.token },
+      { courses: [...user.courses, { courseID: req.body.courseID, count: 1 }] }
+    );
+    res.send("updated"+ user.courses);
+  } catch {
+    res.send("error occured"+ user);
+  }
+});
+
 app.post("/user/addtocart/increment", async (req, res) => {
   //i will get token, course id, count through headers
   const user = await User.find({ token: req.headers.token });
@@ -233,7 +250,7 @@ app.post("/user/addtocart/increment", async (req, res) => {
   } else {
     arr.push({
       courseID: req.headers.courseID,
-      count:1
+      count: 1,
     });
   }
 

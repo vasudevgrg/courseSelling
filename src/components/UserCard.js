@@ -11,6 +11,8 @@ export default function UserCard({title, description, price, image, id, setArr, 
 const [press, setPress]= React.useState(false);
 const [value, setValue]= React.useState(1);
 
+
+
 const handleAddToCart=()=>{
   console.log(id);
   fetch("http://localhost:5002/user/addtocart", {

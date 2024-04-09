@@ -11,6 +11,8 @@ const LandingPage = () => {
 
   // console.log(localStorage.getItem("token"));
 
+  
+
   useEffect(() => {
     fetch("http://localhost:5002/admin/courses",{
       method:"get",
