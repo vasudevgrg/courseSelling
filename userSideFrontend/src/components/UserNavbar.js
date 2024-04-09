@@ -53,7 +53,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 
-export default function Navbar({arr, setArr}) {
+export default function UserNavbar({arr, setArr}) {
   
   const [updatedArr, setUpdatedArr]= React.useState([]);
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./Navbar";
-import Card1 from "./Card1";
+import UserNavbar from "./UserNavbar";
+import UserCard from "./UserCard";
 
-import Modal from "./Modal";
 
-const LandingPage = () => {
+
+const UserLandingPage = () => {
   const [arr, setArr] = useState([]);
   const [open, setOpen]= useState(false);
   let [id, setId]= useState("");
@@ -28,8 +28,8 @@ const LandingPage = () => {
   // console.log(arr);
   return (
     <>
-  {open &&  <Modal setOpen={setOpen} id={id} setArr={setArr} />}
-      <Navbar arr={arr} setArr={setArr} />
+ 
+      <UserNavbar arr={arr} setArr={setArr} />
       <div
         style={{
           display: "flex",
@@ -41,7 +41,7 @@ const LandingPage = () => {
         <div style={{display:"flex", flexDirection:"row", margin:"10px", flexWrap:"wrap"}}>
           
           {arr.map((e) => (
-            <Card1 title={e.title} description={e.description} price={e.price} image={e.image} id={e._id} setArr={setArr} setOpen={setOpen} setId={setId} />
+            <UserCard title={e.title} description={e.description} price={e.price} image={e.image} id={e._id} setArr={setArr} setOpen={setOpen} setId={setId} />
             
           ))}
         </div>
@@ -52,4 +52,4 @@ const LandingPage = () => {
 };
 
 
-export default LandingPage;
+export default UserLandingPage;
