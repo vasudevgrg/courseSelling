@@ -233,11 +233,12 @@ app.post("/user/addtocart/increment", async (req, res) => {
   } else {
     arr.push({
       courseID: req.headers.courseID,
+      count:1
     });
   }
 
   await User.updateOne(
-    { _id: req.headers.token },
+    { _id: req.headers.courseID },
     { username, password, token, arr }
   );
 });
