@@ -1,12 +1,16 @@
 import React from 'react';
 import './Modal.css';
+import SubCard from './SubCard';
 
 
 const AddToCartModal = ({setOpen, courseArr}) => {
 
 
-
-
+const fetchcourse=async(id)=>{
+ let ans=await fetch(`http://localhost:5002/courses/${id}`);
+ console.log(ans);
+ return ans;
+}
 
   return (
     <>
@@ -14,7 +18,11 @@ const AddToCartModal = ({setOpen, courseArr}) => {
 
     <div className="container" style={{display:"flex", flexDirection:"column", margin:"10px"}}>
         {
-            courseArr.map((e)=>)
+            courseArr.map( (e)=>{
+                let course=  fetchcourse(e.courseID);
+                console.log(course);
+                <SubCard  course={course}/>
+            })
         }
     </div>
     </>

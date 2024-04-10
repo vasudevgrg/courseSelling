@@ -219,7 +219,7 @@ app.delete("/admin/course/:id", authenticate, async (req, res) => {
 //api to fetch particular course 
 
 app.get("/courses/:courseID", async (req, res)=>{
-    const course= Course.findOne({_id: req.params.courseID});
+    const course=await Course.findOne({_id: req.params.courseID});
     console.log(course);
     res.send(course);
 })
@@ -234,7 +234,7 @@ app.get("/user/courses", async (req, res)=>{
     res.send({
         "courses": user.courses
     })
-})
+});
 
 app.post("/user/addtocart", async (req, res) => {
     // try {

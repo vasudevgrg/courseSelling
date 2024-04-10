@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import UserNavbar from "./UserNavbar";
 import UserCard from "./UserCard";
+import AddToCartModal from "./AddToCartModal";
 
 
 
@@ -33,13 +34,24 @@ const [courseArr, setCourseArr]= useState([]);
         setArr(e.courses);
        
       });
+
+      fetch("http://localhost:5002/user/courses",{
+        method:"get",
+        headers:{
+          'Content-Type':'application/json',
+          'token': localStorage.getItem('token')
+        }
+      } ).then(e=>e.json()).then(e=>setCourseArr(e.courses));
   }, []);
   
+  // console.log(courseArr);
   return (
     
     <>
- 
-      <UserNavbar arr={arr} setArr={setArr} />
+ {
+  open && <AddToCartModal courseArr={courseArr} setOpen={setOpen}/>
+ }
+      <UserNavbar arr={arr} setArr={setArr} setOpen={setOpen} />
       <div
         style={{
           display: "flex",

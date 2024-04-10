@@ -53,7 +53,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 
-export default function UserNavbar({arr, setArr}) {
+export default function UserNavbar({arr, setArr, setOpen}) {
   
   const [updatedArr, setUpdatedArr]= React.useState([]);
 
@@ -77,7 +77,7 @@ export default function UserNavbar({arr, setArr}) {
   }
 
   const handleCart=()=>{
-    
+    setOpen(true);
   }
 
   return (
