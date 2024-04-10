@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export default function UserCard({title, description, price, image, id, setArr, setOpen, setId}) {
+export default function UserCard({title, description, price, image, id, setArr, setOpen, setId, setCourseArr}) {
 
 const [press, setPress]= React.useState(false);
 const [value, setValue]= React.useState(1);
@@ -21,10 +21,12 @@ const handleAddToCart=()=>{
       'token': localStorage.getItem("token"),
       'Content-Type':'application/json',
     },
-    body:{
-      'courseID': id
-    }
+    body:JSON.stringify({
+      "courseID": id
+    })
   }).then((e)=>e.json()).then(e=>console.log(e));
+
+  setPress(true);
 }
 
   return (

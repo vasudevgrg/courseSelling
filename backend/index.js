@@ -130,15 +130,17 @@ app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   console.log(username + " " + password);
   try {
-    let val = await Admin.findOne({ username, password });
+    
     if (username === "admin") {
+        let val = await Admin.findOne({ username, password });
       res.send({
         token: val.token,
         type: "admin",
       });
     } else {
+        let val1 = await User.findOne({ username, password });
       res.send({
-        token: val.token,
+        token: val1.token,
         type: "user",
       });
     }
@@ -214,25 +216,59 @@ app.delete("/admin/course/:id", authenticate, async (req, res) => {
   }
 });
 
+//api to fetch particular course 
+
+app.get("/courses/:courseID", async (req, res)=>{
+    const course= Course.findOne({_id: req.params.courseID});
+    console.log(course);
+    res.send(course);
+})
+
 //apis for users
 
+app.get("/user/courses", async (req, res)=>{
+    let user= await User.findOne({"token": req.headers.token});
+    console.log(user);
+   
+    console.log(user.courses);
+    res.send({
+        "courses": user.courses
+    })
+})
+
 app.post("/user/addtocart", async (req, res) => {
-    
-    let user =  User.findOne({ token: req.headers.token });
-  try {
-    
+    // try {
+      // Finding the user
+      
+      console.log(req.headers.token);
+      let user = await User.findOne({ "token": req.headers.token});
+        console.log(req.headers.token);
+      console.log(user);
+  
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
 
-    console.log(JSON.parse(user));
+      console.log(user.token);
+  
+      // Updating the user's cart
+      await User.updateOne(
+        { username: "vasudev"},
+        { courses: [...user.courses, { courseID: req.body.courseID, count: 1 }] }
+      );
+  
+      // Fetching the updated user after the update
+      user = await User.findOne({ token: req.headers.token});
+  
+      res.send("Course added to cart. Updated cart: " + JSON.stringify(user.courses));
+    // } catch (error) {
+    //   console.error(error);
+    //   res.status(500).send("An error occurred");
+    // }
+  });
 
-     User.updateOne(
-      { token: req.headers.token },
-      { courses: [...user.courses, { courseID: req.body.courseID, count: 1 }] }
-    );
-    res.send("updated"+ user.courses);
-  } catch {
-    res.send("error occured"+ user);
-  }
-});
+
+  
 
 app.post("/user/addtocart/increment", async (req, res) => {
   //i will get token, course id, count through headers

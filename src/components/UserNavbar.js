@@ -76,6 +76,10 @@ export default function UserNavbar({arr, setArr}) {
       }
   }
 
+  const handleCart=()=>{
+    
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -106,6 +110,7 @@ export default function UserNavbar({arr, setArr}) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
+          <Typography onClick={handleCart}>Cart</Typography>
         </Toolbar>
       </AppBar>
     </Box>

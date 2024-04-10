@@ -7,16 +7,18 @@ import UserCard from "./UserCard";
 const UserLandingPage = () => {
   const [arr, setArr] = useState([]);
   const [open, setOpen]= useState(false);
-  let [id, setId]= useState("");
 
-  window.addEventListener('message', receiveMessage, false);
+const [courseArr, setCourseArr]= useState([]);
+  
 
-  function receiveMessage(event) {
-    console.log("userlanding");
-    if (event.origin === 'http://localhost:3000/') {
-      alert('Received message: ' + event.data);
-    }
-  }
+  // window.addEventListener('message', receiveMessage, false);
+
+  // function receiveMessage(event) {
+  //   console.log("userlanding");
+  //   if (event.origin === 'http://localhost:3000/') {
+  //     alert('Received message: ' + event.data);
+  //   }
+  // }
 
   useEffect(() => {
     fetch("http://localhost:5002/admin/courses",{
@@ -49,7 +51,7 @@ const UserLandingPage = () => {
         <div style={{display:"flex", flexDirection:"row", margin:"10px", flexWrap:"wrap"}}>
           
           {arr.map((e) => (
-            <UserCard title={e.title} description={e.description} price={e.price} image={e.image} id={e._id} setArr={setArr} setOpen={setOpen} setId={setId} />
+            <UserCard title={e.title} description={e.description} price={e.price} image={e.image} id={e._id} setArr={setArr} setOpen={setOpen} setCourseArr={setCourseArr}/>
             
           ))}
         </div>
